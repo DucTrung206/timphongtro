@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tìm Phòng Trọ - Giao Diện Tương Tác Theme Park</title>
+  
+  <!-- CSS Reset -->
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: #0b132b;
+      color: #f8fafc;
+      overflow-x: hidden;
+    }
+  </style>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              dark: '#0b132b',
+              navy: '#1c2541',
+              blue: '#3a506b',
+              cyan: '#5bc0be',
+              green: '#00b14f',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+  <!-- Custom Animation Styles -->
+  <style>
+    h1, h2, h3 {
+      font-family: 'Outfit', sans-serif;
+    }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    /* Floating Gravity Elements */
+    @keyframes floating-slow {
+      0% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(8deg); }
+      100% { transform: translateY(0px) rotate(0deg); }
+    }
+    @keyframes floating-medium {
+      0% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-15px) rotate(-6deg); }
+      100% { transform: translateY(0px) rotate(0deg); }
+    }
+    @keyframes floating-fast {
+      0% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-10px) rotate(4deg); }
+      100% { transform: translateY(0px) rotate(0deg); }
+    }
+
+    .floating-key {
+      animation: floating-slow 6s ease-in-out infinite;
+    }
+    .floating-star {
+      animation: floating-medium 5s ease-in-out infinite;
+    }
+    .floating-shield {
+      animation: floating-fast 4s ease-in-out infinite;
+    }
+    .floating-bubble {
+      animation: floating-slow 8s ease-in-out infinite;
+    }
+
+    /* Glassmorphism style */
+    .glass-panel {
+      background: rgba(28, 37, 65, 0.6);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .glass-input {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: white;
+      transition: all 0.3s ease;
+    }
+    .glass-input:focus {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: #5bc0be;
+      outline: none;
+      box-shadow: 0 0 15px rgba(91, 192, 190, 0.2);
+    }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0b132b;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1c2541;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #3a506b;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 1. Header Section -->
+  <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-5 px-6 md:px-12 glass-panel border-b border-white/5">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      <a href="#" class="flex items-center gap-2 group">
+        <div class="w-10 h-10 rounded-xl bg-brand-green flex items-center justify-center shadow-lg shadow-green-500/25 group-hover:scale-110 transition-transform">
+          <span class="text-white text-xl">🏢</span>
+        </div>
+        <span class="text-xl font-extrabold tracking-tight bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+          Tìm Phòng Trọ
+        </span>
+      </a>
+
+      <nav class="hidden md:flex items-center gap-8">
+        <a href="#" class="text-sm font-medium hover:text-brand-cyan transition-colors">Trang chủ</a>
+        <a href="#room-section" class="text-sm font-medium hover:text-brand-cyan transition-colors">Danh sách phòng</a>
+        <a href="#" class="text-sm font-medium hover:text-brand-cyan transition-colors">Tin tức</a>
+        <a href="#" class="text-sm font-medium hover:text-brand-cyan transition-colors">Liên hệ</a>
+      </nav>
+
+      <div class="flex items-center gap-4">
+        <button id="map-trigger-btn" class="px-5 py-2.5 rounded-full bg-brand-cyan/10 hover:bg-brand-cyan/20 border border-brand-cyan/30 text-brand-cyan text-sm font-semibold transition-all">
+          🗺️ Xem bản đồ
+        </button>
+        <button class="px-5 py-2.5 rounded-full bg-brand-green hover:bg-green-600 text-white text-sm font-semibold transition-all shadow-md shadow-green-500/10">
+          Đăng nhập
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- 2. Hero Section (Parallax & Anti-gravity) -->
+  <section class="relative min-h-[90vh] flex flex-col justify-center overflow-hidden pt-24" id="hero-section">
+    <!-- Parallax Background Layer -->
+    <div class="absolute inset-0 z-0 scale-110 opacity-30 pointer-events-none hero-parallax-bg" style="background-image: url('https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&q=80&w=1920'); background-size: cover; background-position: center;"></div>
+    
+    <!-- Background glows -->
+    <div class="absolute top-[-10%] left-[-10%] w-96 h-96 bg-brand-cyan/20 rounded-full filter blur-[120px] pointer-events-none"></div>
+    <div class="absolute bottom-[-10%] right-[-10%] w-96 h-96 bg-blue-500/10 rounded-full filter blur-[120px] pointer-events-none"></div>
+
+    <!-- Floating Anti-gravity Decoration Elements -->
+    <div class="absolute top-[18%] left-[10%] z-10 floating-key pointer-events-none">
+      <div class="glass-panel p-4 rounded-2xl flex items-center justify-center border border-white/10 shadow-xl">
+        <span class="text-3xl">🔑</span>
+      </div>
+    </div>
+    <div class="absolute top-[40%] right-[12%] z-10 floating-star pointer-events-none">
+      <div class="glass-panel p-4 rounded-2xl flex items-center justify-center border border-white/10 shadow-xl">
+        <span class="text-3xl">⭐</span>
+      </div>
+    </div>
+    <div class="absolute bottom-[20%] left-[8%] z-10 floating-shield pointer-events-none">
+      <div class="glass-panel p-4 rounded-2xl flex items-center justify-center border border-white/10 shadow-xl">
+        <span class="text-3xl">🛡️</span>
+      </div>
+    </div>
+    <div class="absolute bottom-[35%] right-[25%] z-10 floating-bubble pointer-events-none">
+      <div class="w-10 h-10 rounded-full bg-brand-cyan/20 border border-brand-cyan/40 filter blur-xs shadow-md"></div>
+    </div>
+
+    <!-- Hero Content -->
+    <div class="max-w-4xl mx-auto px-6 text-center z-10 hero-interactive-content">
+      <span class="px-4 py-1.5 rounded-full bg-brand-cyan/10 border border-brand-cyan/30 text-brand-cyan text-xs font-semibold uppercase tracking-wider mb-6 inline-block">
+        🚀 Trải nghiệm tìm phòng trọ 3D
+      </span>
+      <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight mb-6 leading-tight">
+        Tìm phòng trọ <span class="bg-gradient-to-r from-brand-cyan to-brand-green bg-clip-text text-transparent">gần nhất</span> ngay
+      </h1>
+      <p class="text-gray-400 text-lg md:text-xl mb-10 max-w-2xl mx-auto leading-relaxed">
+        Định vị chính xác, so sánh giá phòng thực tế, xem đánh giá chi tiết và chỉ đường tối ưu đến phòng trọ mong muốn của bạn.
+      </p>
+
+      <!-- Glassmorphic Search Bar -->
+      <div class="glass-panel p-4 rounded-3xl max-w-3xl mx-auto shadow-2xl border border-white/5 flex flex-col md:flex-row gap-3">
+        <div class="flex-1 flex items-center gap-3 px-3 py-2.5 rounded-2xl bg-white/5 border border-white/5">
+          <span class="text-xl">📍</span>
+          <input type="text" placeholder="Bạn muốn tìm phòng ở quận nào?" class="bg-transparent w-full focus:outline-none text-white placeholder-gray-500 text-sm">
+        </div>
+        <div class="flex-1 flex items-center gap-3 px-3 py-2.5 rounded-2xl bg-white/5 border border-white/5">
+          <span class="text-xl">💰</span>
+          <select class="bg-transparent w-full focus:outline-none text-white placeholder-gray-500 text-sm appearance-none">
+            <option class="text-brand-dark" value="all">Tất cả mức giá</option>
+            <option class="text-brand-dark" value="under-2">Dưới 2 triệu</option>
+            <option class="text-brand-dark" value="2-4">Từ 2 - 4 triệu</option>
+            <option class="text-brand-dark" value="above-4">Trên 4 triệu</option>
+          </select>
+        </div>
+        <button class="bg-brand-green hover:bg-green-600 text-white font-semibold py-3 px-8 rounded-2xl transition-all shadow-md shadow-green-500/20">
+          Tìm kiếm
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Room Cards Section (Staggered Scroll Reveal) -->
+  <section class="py-24 px-6 md:px-12 bg-brand-navy/30 relative" id="room-section">
+    <div class="max-w-7xl mx-auto">
+      
+      <!-- Section Title -->
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+        <div>
+          <h2 class="text-3xl font-extrabold tracking-tight mb-3">Phòng trọ đề xuất cho bạn</h2>
+          <p class="text-gray-400 text-sm">Dựa trên xu hướng tìm kiếm và vị trí địa lý của bạn</p>
+        </div>
+        <div class="flex gap-2 mt-4 md:mt-0">
+          <button class="px-4 py-2 rounded-xl bg-brand-cyan text-brand-dark font-bold text-xs">Tất cả</button>
+          <button class="px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-gray-300 font-semibold text-xs transition-colors">Cầu Giấy</button>
+          <button class="px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-gray-300 font-semibold text-xs transition-colors">Thanh Xuân</button>
+          <button class="px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-gray-300 font-semibold text-xs transition-colors">Đống Đa</button>
+        </div>
+      </div>
+
+      <!-- Room Cards Grid with Staggered Scroll Reveal -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 cards-grid-trigger">
+        
+        <!-- Card 1 -->
+        <div class="glass-panel rounded-3xl overflow-hidden border border-white/5 hover:border-brand-cyan/30 transition-all duration-300 hover:shadow-xl hover:shadow-brand-cyan/5 group room-card-item opacity-0">
+          <div class="aspect-[4/3] relative overflow-hidden bg-gray-900">
+            <img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&q=80&w=400" alt="Phòng trọ" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+            <div class="absolute top-4 left-4 bg-brand-dark/80 backdrop-blur-md px-2.5 py-1 rounded-lg text-xs font-bold text-brand-cyan">
+              ⭐ 4.8 (12)
+            </div>
+            <div class="absolute bottom-4 right-4 bg-brand-green px-3 py-1 rounded-lg text-xs font-extrabold text-white">
+              3.5 triệu/th
+            </div>
+          </div>
+          <div class="p-5">
+            <h3 class="font-bold text-base text-white mb-2 line-clamp-1">Trọ cao cấp Hoàn Kiếm</h3>
+            <p class="text-xs text-gray-400 mb-4 flex items-center gap-1">
+              📍 Số 12 Ngõ Hàng Bạc, Hoàn Kiếm, Hà Nội
+            </p>
+            <div class="flex items-center justify-between pt-3 border-t border-white/5 text-xs text-gray-500">
+              <span>🚗 Cách bạn 1.2 km</span>
+              <button class="text-brand-cyan hover:underline font-semibold">Xem chi tiết &rarr;</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="glass-panel rounded-3xl overflow-hidden border border-white/5 hover:border-brand-cyan/30 transition-all duration-300 hover:shadow-xl hover:shadow-brand-cyan/5 group room-card-item opacity-0">
+          <div class="aspect-[4/3] relative overflow-hidden bg-gray-900">
+            <img src="https://images.unsplash.com/photo-1502672260266-1c1cd2cb94bd?auto=format&fit=crop&q=80&w=400" alt="Phòng trọ" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+            <div class="absolute top-4 left-4 bg-brand-dark/80 backdrop-blur-md px-2.5 py-1 rounded-lg text-xs font-bold text-brand-cyan">
+              ⭐ 4.6 (8)
+            </div>
+            <div class="absolute bottom-4 right-4 bg-brand-green px-3 py-1 rounded-lg text-xs font-extrabold text-white">
+              2.0 triệu/th
+            </div>
+          </div>
+          <div class="p-5">
+            <h3 class="font-bold text-base text-white mb-2 line-clamp-1">Trọ sinh viên Cầu Giấy</h3>
+            <p class="text-xs text-gray-400 mb-4 flex items-center gap-1">
+              📍 Số 88 Xuân Thủy, Cầu Giấy, Hà Nội
+            </p>
+            <div class="flex items-center justify-between pt-3 border-t border-white/5 text-xs text-gray-500">
+              <span>🚗 Cách bạn 2.4 km</span>
+              <button class="text-brand-cyan hover:underline font-semibold">Xem chi tiết &rarr;</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="glass-panel rounded-3xl overflow-hidden border border-white/5 hover:border-brand-cyan/30 transition-all duration-300 hover:shadow-xl hover:shadow-brand-cyan/5 group room-card-item opacity-0">
+          <div class="aspect-[4/3] relative overflow-hidden bg-gray-900">
+            <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&q=80&w=400" alt="Phòng trọ" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+            <div class="absolute top-4 left-4 bg-brand-dark/80 backdrop-blur-md px-2.5 py-1 rounded-lg text-xs font-bold text-brand-cyan">
+              ⭐ 4.7 (15)
+            </div>
+            <div class="absolute bottom-4 right-4 bg-brand-green px-3 py-1 rounded-lg text-xs font-extrabold text-white">
+              4.2 triệu/th
+            </div>
+          </div>
+          <div class="p-5">
+            <h3 class="font-bold text-base text-white mb-2 line-clamp-1">Căn hộ mini Thanh Xuân</h3>
+            <p class="text-xs text-gray-400 mb-4 flex items-center gap-1">
+              📍 Số 201 Nguyễn Trãi, Thanh Xuân, Hà Nội
+            </p>
+            <div class="flex items-center justify-between pt-3 border-t border-white/5 text-xs text-gray-500">
+              <span>🚗 Cách bạn 3.8 km</span>
+              <button class="text-brand-cyan hover:underline font-semibold">Xem chi tiết &rarr;</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="glass-panel rounded-3xl overflow-hidden border border-white/5 hover:border-brand-cyan/30 transition-all duration-300 hover:shadow-xl hover:shadow-brand-cyan/5 group room-card-item opacity-0">
+          <div class="aspect-[4/3] relative overflow-hidden bg-gray-900">
+            <img src="https://images.unsplash.com/photo-1493809842364-78817add7ffb?auto=format&fit=crop&q=80&w=400" alt="Phòng trọ" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+            <div class="absolute top-4 left-4 bg-brand-dark/80 backdrop-blur-md px-2.5 py-1 rounded-lg text-xs font-bold text-brand-cyan">
+              ⭐ 4.5 (9)
+            </div>
+            <div class="absolute bottom-4 right-4 bg-brand-green px-3 py-1 rounded-lg text-xs font-extrabold text-white">
+              2.8 triệu/th
+            </div>
+          </div>
+          <div class="p-5">
+            <h3 class="font-bold text-base text-white mb-2 line-clamp-1">Phòng trọ giá rẻ Đống Đa</h3>
+            <p class="text-xs text-gray-400 mb-4 flex items-center gap-1">
+              📍 Số 56 Tây Sơn, Đống Đa, Hà Nội
+            </p>
+            <div class="flex items-center justify-between pt-3 border-t border-white/5 text-xs text-gray-500">
+              <span>🚗 Cách bạn 2.1 km</span>
+              <button class="text-brand-cyan hover:underline font-semibold">Xem chi tiết &rarr;</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 5 -->
+        <div class="glass-panel rounded-3xl overflow-hidden border border-white/5 hover:border-brand-cyan/30 transition-all duration-300 hover:shadow-xl hover:shadow-brand-cyan/5 group room-card-item opacity-0">
+          <div class="aspect-[4/3] relative overflow-hidden bg-gray-900">
+            <img src="https://images.unsplash.com/photo-1505691938895-1758d7def515?auto=format&fit=crop&q=80&w=400" alt="Phòng trọ" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+            <div class="absolute top-4 left-4 bg-brand-dark/80 backdrop-blur-md px-2.5 py-1 rounded-lg text-xs font-bold text-brand-cyan">
+              ⭐ 4.9 (20)
+            </div>
+            <div class="absolute bottom-4 right-4 bg-brand-green px-3 py-1 rounded-lg text-xs font-extrabold text-white">
+              5.5 triệu/th
+            </div>
+          </div>
+          <div class="p-5">
+            <h3 class="font-bold text-base text-white mb-2 line-clamp-1">Căn hộ cao cấp Ba Đình</h3>
+            <p class="text-xs text-gray-400 mb-4 flex items-center gap-1">
+              📍 Số 33 Đội Cấn, Ba Đình, Hà Nội
+            </p>
+            <div class="flex items-center justify-between pt-3 border-t border-white/5 text-xs text-gray-500">
+              <span>🚗 Cách bạn 3.2 km</span>
+              <button class="text-brand-cyan hover:underline font-semibold">Xem chi tiết &rarr;</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 6 -->
+        <div class="glass-panel rounded-3xl overflow-hidden border border-white/5 hover:border-brand-cyan/30 transition-all duration-300 hover:shadow-xl hover:shadow-brand-cyan/5 group room-card-item opacity-0">
+          <div class="aspect-[4/3] relative overflow-hidden bg-gray-900">
+            <img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&q=80&w=400" alt="Phòng trọ" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+            <div class="absolute top-4 left-4 bg-brand-dark/80 backdrop-blur-md px-2.5 py-1 rounded-lg text-xs font-bold text-brand-cyan">
+              ⭐ 4.4 (7)
+            </div>
+            <div class="absolute bottom-4 right-4 bg-brand-green px-3 py-1 rounded-lg text-xs font-extrabold text-white">
+              2.5 triệu/th
+            </div>
+          </div>
+          <div class="p-5">
+            <h3 class="font-bold text-base text-white mb-2 line-clamp-1">Nhà trọ sạch sẽ Hoàng Mai</h3>
+            <p class="text-xs text-gray-400 mb-4 flex items-center gap-1">
+              📍 Số 78 Giải Phóng, Hoàng Mai, Hà Nội
+            </p>
+            <div class="flex items-center justify-between pt-3 border-t border-white/5 text-xs text-gray-500">
+              <span>🚗 Cách bạn 3.0 km</span>
+              <button class="text-brand-cyan hover:underline font-semibold">Xem chi tiết &rarr;</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 7 -->
+        <div class="glass-panel rounded-3xl overflow-hidden border border-white/5 hover:border-brand-cyan/30 transition-all duration-300 hover:shadow-xl hover:shadow-brand-cyan/5 group room-card-item opacity-0">
+          <div class="aspect-[4/3] relative overflow-hidden bg-gray-900">
+            <img src="https://images.unsplash.com/photo-1502672260266-1c1cd2cb94bd?auto=format&fit=crop&q=80&w=400" alt="Phòng trọ" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+            <div class="absolute top-4 left-4 bg-brand-dark/80 backdrop-blur-md px-2.5 py-1 rounded-lg text-xs font-bold text-brand-cyan">
+              ⭐ 4.2 (5)
+            </div>
+            <div class="absolute bottom-4 right-4 bg-brand-green px-3 py-1 rounded-lg text-xs font-extrabold text-white">
+              3.0 triệu/th
+            </div>
+          </div>
+          <div class="p-5">
+            <h3 class="font-bold text-base text-white mb-2 line-clamp-1">Phòng trọ đẹp Nam Từ Liêm</h3>
+            <p class="text-xs text-gray-400 mb-4 flex items-center gap-1">
+              📍 Số 102 Mễ Trì, Nam Từ Liêm, Hà Nội
+            </p>
+            <div class="flex items-center justify-between pt-3 border-t border-white/5 text-xs text-gray-500">
+              <span>🚗 Cách bạn 5.1 km</span>
+              <button class="text-brand-cyan hover:underline font-semibold">Xem chi tiết &rarr;</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 8 -->
+        <div class="glass-panel rounded-3xl overflow-hidden border border-white/5 hover:border-brand-cyan/30 transition-all duration-300 hover:shadow-xl hover:shadow-brand-cyan/5 group room-card-item opacity-0">
+          <div class="aspect-[4/3] relative overflow-hidden bg-gray-900">
+            <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&q=80&w=400" alt="Phòng trọ" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+            <div class="absolute top-4 left-4 bg-brand-dark/80 backdrop-blur-md px-2.5 py-1 rounded-lg text-xs font-bold text-brand-cyan">
+              ⭐ 4.3 (11)
+            </div>
+            <div class="absolute bottom-4 right-4 bg-brand-green px-3 py-1 rounded-lg text-xs font-extrabold text-white">
+              1.5 triệu/th
+            </div>
+          </div>
+          <div class="p-5">
+            <h3 class="font-bold text-base text-white mb-2 line-clamp-1">Ký túc xá giá rẻ Long Biên</h3>
+            <p class="text-xs text-gray-400 mb-4 flex items-center gap-1">
+              📍 Số 15 Ngọc Lâm, Long Biên, Hà Nội
+            </p>
+            <div class="flex items-center justify-between pt-3 border-t border-white/5 text-xs text-gray-500">
+              <span>🚗 Cách bạn 4.5 km</span>
+              <button class="text-brand-cyan hover:underline font-semibold">Xem chi tiết &rarr;</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 4. Interactive Footer -->
+  <footer class="py-16 px-6 md:px-12 bg-brand-dark border-t border-white/5 text-center relative">
+    <div class="max-w-7xl mx-auto flex flex-col items-center">
+      <div class="flex items-center gap-2 mb-6">
+        <div class="w-10 h-10 rounded-xl bg-brand-green flex items-center justify-center shadow-lg shadow-green-500/25">
+          <span class="text-white text-xl">🏢</span>
+        </div>
+        <span class="text-xl font-extrabold tracking-tight bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+          Tìm Phòng Trọ
+        </span>
+      </div>
+      <p class="text-gray-500 text-sm max-w-md mb-8 leading-relaxed">
+        Hệ thống tìm kiếm phòng trọ thông minh, định vị chính xác và tối ưu hoá đường đi dành riêng cho thế hệ sinh viên và người đi làm mới.
+      </p>
+      <div class="flex gap-6 mb-8 text-sm text-gray-400">
+        <a href="#" class="hover:text-brand-cyan transition-colors">Điều khoản bảo mật</a>
+        <span>&bull;</span>
+        <a href="#" class="hover:text-brand-cyan transition-colors">Quy chế hoạt động</a>
+        <span>&bull;</span>
+        <a href="#" class="hover:text-brand-cyan transition-colors">Liên hệ hỗ trợ</a>
+      </div>
+      <p class="text-gray-600 text-xs">
+        &copy; 2026 Tìm Phòng Trọ Gần Nhất. All rights reserved.
+      </p>
+    </div>
+  </footer>
+
+  <!-- Zalo / Map Under Development Modal (Portal replacement simulated with high Z-index) -->
+  <div id="dev-modal" class="fixed inset-0 z-[10000] hidden items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+    <div class="bg-white rounded-3xl shadow-2xl p-6 max-w-sm w-full text-center relative flex flex-col items-center justify-center" style="min-height: 260px;">
+      <button id="close-modal-btn" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors">
+        <span class="text-gray-500 font-bold">✕</span>
+      </button>
+      <div class="text-6xl mb-4 animate-bounce">🛠️</div>
+      <h4 class="text-lg font-bold text-gray-800 mb-2">Xin lỗi bạn!</h4>
+      <p class="text-gray-600 text-sm leading-relaxed mb-1">
+        Tính năng <span class="font-semibold text-brand-green">Xem bản đồ</span> đang trong quá trình
+      </p>
+      <p class="text-blue-600 font-semibold text-base mb-4">🚧 Phát triển 🚧</p>
+      <p class="text-gray-500 text-xs leading-relaxed max-w-[260px] mb-4">
+        Chúng tôi đang nỗ lực phát triển tính năng này. Vui lòng liên hệ qua <a href="tel:0337204417" class="text-blue-600 font-medium hover:underline">0337.204.417</a> hoặc Zalo để được hỗ trợ ngay.
+      </p>
+      <button id="close-modal-confirm-btn" class="px-6 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-medium rounded-lg transition-colors">
+        Đóng
+      </button>
+    </div>
+  </div>
+
+  <!-- GSAP & ScrollTrigger CDNs -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  <!-- Interactive JavaScript -->
+  <script>
+    // Register GSAP ScrollTrigger
+    gsap.registerPlugin(ScrollTrigger);
+
+    // 1. Hero Parallax Effect
+    gsap.to(".hero-parallax-bg", {
+      yPercent: 20,
+      ease: "none",
+      scrollTrigger: {
+        trigger: "#hero-section",
+        start: "top top",
+        end: "bottom top",
+        scrub: true
+      }
+    });
+
+    // 2. Hero Content Fade & Shrink
+    gsap.to(".hero-interactive-content", {
+      opacity: 0.1,
+      y: -30,
+      ease: "power1.out",
+      scrollTrigger: {
+        trigger: "#hero-section",
+        start: "top top",
+        end: "bottom 40%",
+        scrub: true
+      }
+    });
+
+    // 3. Staggered Scroll Reveal for Room Cards
+    gsap.fromTo(
+      ".room-card-item",
+      {
+        opacity: 0,
+        y: 60,
+        scale: 0.95
+      },
+      {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        duration: 0.8,
+        ease: "power3.out",
+        stagger: 0.1,
+        scrollTrigger: {
+          trigger: ".cards-grid-trigger",
+          start: "top 85%",
+          toggleActions: "play none none none"
+        }
+      }
+    );
+
+    // 4. Modal Triggers
+    const devModal = document.getElementById("dev-modal");
+    const mapBtn = document.getElementById("map-trigger-btn");
+    const closeModalBtn = document.getElementById("close-modal-btn");
+    const closeModalConfirmBtn = document.getElementById("close-modal-confirm-btn");
+
+    mapBtn.addEventListener("click", () => {
+      devModal.classList.remove("hidden");
+      devModal.classList.add("flex");
+    });
+
+    const hideModal = () => {
+      devModal.classList.remove("flex");
+      devModal.classList.add("hidden");
+    };
+
+    closeModalBtn.addEventListener("click", hideModal);
+    closeModalConfirmBtn.addEventListener("click", hideModal);
+    devModal.addEventListener("click", (e) => {
+      if (e.target === devModal) hideModal();
+    });
+  </script>
+</body>
+</html>
