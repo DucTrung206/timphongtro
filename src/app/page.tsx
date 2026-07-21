@@ -75,12 +75,12 @@ export default function HomePage() {
           <div className="absolute bottom-[-10%] right-[-10%] w-96 h-96 bg-cyan-400 rounded-full mix-blend-screen filter blur-[100px] opacity-20"></div>
         </div>
 
-          <div className="max-w-5xl mx-auto px-6 py-20 md:py-28 w-full flex flex-col items-center text-center z-10 gsap-hero-content">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 py-12 sm:py-20 md:py-28 w-full flex flex-col items-center text-center z-10 gsap-hero-content">
             
             {/* Centered Content Wrapper */}
-            <div className="w-full flex flex-col items-center space-y-10 text-white">
+            <div className="w-full flex flex-col items-center space-y-6 sm:space-y-10 text-white">
               <RevealOnScroll delay={0} direction="up" distance={50}>
-                <h2 className="text-5xl md:text-6.5xl font-extrabold tracking-tight leading-[1.15]">
+                <h2 className="text-3xl sm:text-5xl md:text-6.5xl font-extrabold tracking-tight leading-[1.15]">
                   Tìm phòng trọ{" "}
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400 animate-pulse">
                     gần nhất ngay
@@ -89,7 +89,7 @@ export default function HomePage() {
               </RevealOnScroll>
               
               <RevealOnScroll delay={150} direction="up" distance={40}>
-                <p className="text-lg text-blue-100 max-w-2xl leading-relaxed opacity-90 mx-auto">
+                <p className="text-sm sm:text-lg text-blue-100 max-w-2xl leading-relaxed opacity-90 mx-auto px-2">
                   Định vị chính xác, so sánh giá phòng thực tế, xem đánh giá chi tiết và chỉ đường tối ưu đến phòng trọ. Tiết kiệm thời gian, tiết kiệm chi phí.
                 </p>
               </RevealOnScroll>
@@ -123,26 +123,26 @@ export default function HomePage() {
               </RevealOnScroll>
 
               {/* Feature Blocks — Centered and Staggered */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-6 w-full max-w-3xl mx-auto">
+              <div className="grid grid-cols-3 gap-2 sm:gap-6 pt-4 sm:pt-6 w-full max-w-3xl mx-auto">
                 <RevealOnScroll delay={400} direction="up" distance={30}>
-                  <div className="bg-white/5 border border-white/10 p-5 rounded-2xl backdrop-blur-md hover:bg-white/10 transition-all duration-300 hover:border-white/20 hover:translate-y-[-2px] flex flex-col items-center text-center">
-                    <Crosshair className="w-7 h-7 text-cyan-400 mb-2" />
-                    <h3 className="font-semibold text-white mb-1 text-sm">Chính xác</h3>
-                    <p className="text-xs text-blue-200">100% định vị</p>
+                  <div className="bg-white/5 border border-white/10 p-3 sm:p-5 rounded-xl sm:rounded-2xl backdrop-blur-md hover:bg-white/10 transition-all duration-300 hover:border-white/20 hover:translate-y-[-2px] flex flex-col items-center text-center">
+                    <Crosshair className="w-5 h-5 sm:w-7 sm:h-7 text-cyan-400 mb-1 sm:mb-2" />
+                    <h3 className="font-semibold text-white mb-0.5 text-xs sm:text-sm">Chính xác</h3>
+                    <p className="text-[10px] sm:text-xs text-blue-200">100% định vị</p>
                   </div>
                 </RevealOnScroll>
                 <RevealOnScroll delay={500} direction="up" distance={30}>
-                  <div className="bg-white/5 border border-white/10 p-5 rounded-2xl backdrop-blur-md hover:bg-white/10 transition-all duration-300 hover:border-white/20 hover:translate-y-[-2px] flex flex-col items-center text-center">
-                    <Zap className="w-7 h-7 text-blue-400 mb-2" />
-                    <h3 className="font-semibold text-white mb-1 text-sm">Nhanh</h3>
-                    <p className="text-xs text-blue-200">Dữ liệu Real-time</p>
+                  <div className="bg-white/5 border border-white/10 p-3 sm:p-5 rounded-xl sm:rounded-2xl backdrop-blur-md hover:bg-white/10 transition-all duration-300 hover:border-white/20 hover:translate-y-[-2px] flex flex-col items-center text-center">
+                    <Zap className="w-5 h-5 sm:w-7 sm:h-7 text-blue-400 mb-1 sm:mb-2" />
+                    <h3 className="font-semibold text-white mb-0.5 text-xs sm:text-sm">Nhanh</h3>
+                    <p className="text-[10px] sm:text-xs text-blue-200">Dữ liệu Real-time</p>
                   </div>
                 </RevealOnScroll>
                 <RevealOnScroll delay={600} direction="up" distance={30}>
-                  <div className="bg-white/5 border border-white/10 p-5 rounded-2xl backdrop-blur-md hover:bg-white/10 transition-all duration-300 hover:border-white/20 hover:translate-y-[-2px] flex flex-col items-center text-center">
-                    <BarChart3 className="w-7 h-7 text-purple-400 mb-2" />
-                    <h3 className="font-semibold text-white mb-1 text-sm">Chi tiết</h3>
-                    <p className="text-xs text-blue-200">So sánh mức giá</p>
+                  <div className="bg-white/5 border border-white/10 p-3 sm:p-5 rounded-xl sm:rounded-2xl backdrop-blur-md hover:bg-white/10 transition-all duration-300 hover:border-white/20 hover:translate-y-[-2px] flex flex-col items-center text-center">
+                    <BarChart3 className="w-5 h-5 sm:w-7 sm:h-7 text-purple-400 mb-1 sm:mb-2" />
+                    <h3 className="font-semibold text-white mb-0.5 text-xs sm:text-sm">Chi tiết</h3>
+                    <p className="text-[10px] sm:text-xs text-blue-200">So sánh mức giá</p>
                   </div>
                 </RevealOnScroll>
               </div>

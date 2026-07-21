@@ -230,15 +230,15 @@ export default function Header() {
   }, [searchQuery]);
 
   return (
-    <header className={`border-b border-gray-100 flex items-center justify-between sticky top-0 z-50 transition-all duration-300 ease-out px-6 ${isScrolled ? 'header-glass py-2' : 'bg-white py-3'}`}>
+    <header className={`border-b border-gray-100 flex items-center justify-between sticky top-0 z-50 transition-all duration-300 ease-out px-3 sm:px-6 ${isScrolled ? 'header-glass py-2' : 'bg-white py-2.5 sm:py-3'}`}>
       {/* Logo */}
-      <div className="flex items-center gap-3">
-        <div className="bg-blue-600 text-white p-2 rounded-xl">
-          <Home className="w-6 h-6" />
+      <div className="flex items-center gap-2 sm:gap-3">
+        <div className="bg-blue-600 text-white p-1.5 sm:p-2 rounded-xl shrink-0">
+          <Home className="w-5 h-5 sm:w-6 sm:h-6" />
         </div>
         <div>
-          <h1 className="text-blue-700 font-bold text-lg leading-tight">Tìm Phòng Trọ</h1>
-          <p className="text-xs text-gray-500">Nhanh chóng, Uy tín</p>
+          <h1 className="text-blue-700 font-bold text-base sm:text-lg leading-tight">Tìm Phòng Trọ</h1>
+          <p className="text-[10px] sm:text-xs text-gray-500">Nhanh chóng, Uy tín</p>
         </div>
       </div>
 
@@ -387,7 +387,7 @@ export default function Header() {
 
               {/* Favorites Dropdown */}
               {showFavorites && (
-                <div className="absolute top-full right-0 mt-2 w-80 bg-white border border-gray-100 shadow-[0_8px_30px_rgba(0,0,0,0.12)] rounded-2xl overflow-hidden z-50">
+                <div className="absolute top-full right-0 mt-2 w-72 sm:w-80 bg-white border border-gray-100 shadow-[0_8px_30px_rgba(0,0,0,0.12)] rounded-2xl overflow-hidden z-50">
                   <div className="px-4 py-3 border-b border-gray-100 bg-gradient-to-r from-red-50 to-pink-50 flex items-center justify-between">
                     <h4 className="font-bold text-gray-800 text-sm flex items-center gap-2">
                       <Heart className="w-4 h-4 text-red-500 fill-red-500" />
@@ -476,8 +476,8 @@ export default function Header() {
               )}
             </div>
 
-            <div className="flex items-center gap-2 bg-blue-50 text-blue-700 px-5 py-2.5 rounded-full font-medium border border-blue-100 shadow-sm cursor-pointer hover:bg-blue-100 transition-colors">
-              <span className="text-sm">Xin chào, <strong>{username}</strong></span>
+            <div className="flex items-center gap-1.5 sm:gap-2 bg-blue-50 text-blue-700 px-3 sm:px-5 py-1.5 sm:py-2.5 rounded-full font-medium border border-blue-100 shadow-sm cursor-pointer hover:bg-blue-100 transition-colors">
+              <span className="text-xs sm:text-sm truncate max-w-[90px] sm:max-w-none">Xin chào, <strong>{username}</strong></span>
             </div>
             <button
               onClick={() => {

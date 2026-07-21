@@ -273,8 +273,7 @@ export default function MapSection() {
             <div className="flex items-center gap-2 mb-3">
               <MapPin className="w-4 h-4 text-blue-500" />
               <span className="text-sm font-semibold text-gray-700">Lọc theo khu vực:</span>
-            </div>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex overflow-x-auto pb-2 sm:pb-0 sm:flex-wrap gap-2 items-center text-xs sm:text-sm">
               {/* Nút Khu vực hiện tại */}
               {(!currentDistrict || isLocating || (districtCounts["current"] || 0) > 0) && (
                 <button
@@ -282,7 +281,7 @@ export default function MapSection() {
                     if (!currentDistrict && !isLocating) detectCurrentDistrict();
                     setSelectedDistrict("current");
                   }}
-                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all flex items-center gap-1.5 ${
+                  className={`shrink-0 whitespace-nowrap px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-all flex items-center gap-1.5 ${
                     selectedDistrict === "current"
                       ? "bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-md shadow-green-500/20"
                       : "bg-white text-gray-600 border border-green-300 hover:border-green-400 hover:bg-green-50 hover:text-green-700"
@@ -315,7 +314,7 @@ export default function MapSection() {
                   <button
                     key={d.key}
                     onClick={() => setSelectedDistrict(d.key)}
-                    className={`px-4 py-2 rounded-full text-sm font-medium transition-all flex items-center gap-1.5 ${
+                    className={`shrink-0 whitespace-nowrap px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-all flex items-center gap-1.5 ${
                       isActive
                         ? "bg-blue-600 text-white shadow-md shadow-blue-600/20"
                         : "bg-white text-gray-600 border border-gray-200 hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700"
