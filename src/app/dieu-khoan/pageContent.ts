@@ -18,7 +18,6 @@ export const pageContent = {
         {
             title: "1. Điều khoản chung",
             content: "Mục đích hoạt động: [Tên Website] là nền tảng trung gian kết nối giữa người có nhu cầu cho thuê phòng trọ/nhà ở và người có nhu cầu tìm thuê.\nTài khoản người dùng: Người dùng cần cung cấp thông tin liên lạc chính xác khi đăng ký tài khoản. Bạn có trách nhiệm bảo mật thông tin đăng nhập và chịu trách nhiệm cho mọi hoạt động diễn ra dưới tài khoản của mình.",
-            content1
         },
         {
             title: "2. Quyền và nghĩa vụ của người dùng",

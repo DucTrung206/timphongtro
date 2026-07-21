@@ -170,8 +170,8 @@ export function parsePriceToNumber(priceStr: string): number {
 }
 
 // ====== FILTER FUNCTION ======
-export function applyRoomFilters(
-  rooms: {
+export function applyRoomFilters<
+  T extends {
     roomPrice: string;
     area?: string;
     furniture: string[];
@@ -181,9 +181,11 @@ export function applyRoomFilters(
     address: string;
     electricityPrice?: string;
     waterPrice?: string;
-  }[],
+  }
+>(
+  rooms: T[],
   filter: RoomFilterState
-) {
+): T[] {
   return rooms.filter((room) => {
     // 1. Lọc theo giá phòng
     if (filter.priceRange !== "all") {

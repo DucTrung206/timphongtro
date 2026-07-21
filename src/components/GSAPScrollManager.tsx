@@ -74,7 +74,7 @@ export default function GSAPScrollManager({ children }: GSAPScrollManagerProps) 
         lenis.on("scroll", ScrollTrigger.update);
 
         // Tell GSAP to use Lenis' requestAnimationFrame loop
-        gsap.ticker.add((time) => {
+        gsap.ticker.add((time: number) => {
           lenis.raf(time * 1000);
         });
 
