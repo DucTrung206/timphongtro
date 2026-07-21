@@ -131,7 +131,7 @@ export default function AnnouncementBanner() {
           left: "50%",
           transform: "translateX(-50%)",
           zIndex: 9999,
-          width: "min(560px, calc(100vw - 32px))",
+          width: "min(540px, calc(100vw - 24px))",
           animation: exiting
             ? "announcement-slide-out 0.5s cubic-bezier(0.4, 0, 1, 1) forwards"
             : "announcement-slide-in 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards",
@@ -143,9 +143,12 @@ export default function AnnouncementBanner() {
             borderRadius: "16px",
             border: `1.5px solid ${style.border}`,
             boxShadow: style.shadow,
-            padding: "16px 18px",
+            padding: "14px 16px",
             position: "relative",
             overflow: "hidden",
+            maxHeight: "80vh",
+            display: "flex",
+            flexDirection: "column",
           }}
         >
           {/* Shimmer overlay */}
@@ -166,7 +169,7 @@ export default function AnnouncementBanner() {
           />
 
           {/* Content */}
-          <div style={{ position: "relative", zIndex: 1 }}>
+          <div style={{ position: "relative", zIndex: 1, overflowY: "auto", maxHeight: "calc(80vh - 30px)", paddingRight: "4px" }}>
             {/* Header row */}
             <div
               style={{
@@ -210,7 +213,7 @@ export default function AnnouncementBanner() {
                 <span
                   style={{
                     fontWeight: 700,
-                    fontSize: "15px",
+                    fontSize: "14px",
                     color: style.text,
                     letterSpacing: "-0.01em",
                   }}
@@ -225,7 +228,7 @@ export default function AnnouncementBanner() {
                   onClick={handleClose}
                   aria-label="Đóng thông báo"
                   style={{
-                    background: "rgba(0,0,0,0.06)",
+                    background: "rgba(0,0,0,0.08)",
                     border: "none",
                     borderRadius: "8px",
                     width: "28px",
@@ -257,12 +260,12 @@ export default function AnnouncementBanner() {
             {/* Message */}
             <div
               style={{
-                fontSize: "13.5px",
+                fontSize: "12.5px",
                 color: style.text,
-                opacity: 0.85,
-                lineHeight: 1.55,
+                opacity: 0.88,
+                lineHeight: 1.5,
                 margin: 0,
-                paddingLeft: "16px",
+                paddingLeft: "8px",
               }}
             >
               {Array.isArray(announcementConfig.message)
