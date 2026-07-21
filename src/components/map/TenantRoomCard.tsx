@@ -542,16 +542,6 @@ export default function TenantRoomCard({ room }: TenantRoomCardProps) {
         document.body
       )}
 
-      {/* Heart beat animation */}
-      <style jsx>{`
-        @keyframes heartBeat {
-          0% { transform: scale(1); }
-          15% { transform: scale(1.3); }
-          30% { transform: scale(1); }
-          45% { transform: scale(1.2); }
-          60% { transform: scale(1); }
-        }
-      `}</style>
     </>
   );
 }

@@ -219,23 +219,6 @@ export function FloatingAccents() {
         <span className="text-emerald-500 text-2xl opacity-60">🛡️</span>
       </div>
 
-      {/* Styling for floating keyframe */}
-      <style jsx global>{`
-        @keyframes float {
-          0% {
-            transform: translateY(0) rotate(0deg);
-          }
-          50% {
-            transform: translateY(-15px) rotate(5deg);
-          }
-          100% {
-            transform: translateY(0) rotate(0deg);
-          }
-        }
-        .animate-float {
-          animation: float infinite ease-in-out;
-        }
-      `}</style>
     </div>
   );
 }

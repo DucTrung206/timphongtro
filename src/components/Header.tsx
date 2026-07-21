@@ -560,19 +560,6 @@ export default function Header() {
         document.body
       )}
 
-      {/* Animation keyframes */}
-      <style jsx>{`
-        @keyframes scaleIn {
-          from {
-            transform: scale(0.85);
-            opacity: 0;
-          }
-          to {
-            transform: scale(1);
-            opacity: 1;
-          }
-        }
-      `}</style>
     </header>
   );
 }
