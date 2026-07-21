@@ -273,6 +273,7 @@ export default function MapSection() {
             <div className="flex items-center gap-2 mb-3">
               <MapPin className="w-4 h-4 text-blue-500" />
               <span className="text-sm font-semibold text-gray-700">Lọc theo khu vực:</span>
+            </div>
             <div className="flex overflow-x-auto pb-2 sm:pb-0 sm:flex-wrap gap-2 items-center text-xs sm:text-sm">
               {/* Nút Khu vực hiện tại */}
               {(!currentDistrict || isLocating || (districtCounts["current"] || 0) > 0) && (
